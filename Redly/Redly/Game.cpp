@@ -6,7 +6,6 @@ namespace game
         : Opendoor(opendoor)
         , Closeddoor(closeddoor)
         , NewPuzzleTexture(newpuzzletexture)
-        , Attempts(0)
         , CorrectPlates(0)
         , SelectedPlate(NULL)
         , CurrentState(State::Incomplete)
@@ -47,7 +46,6 @@ namespace game
 
     void Game::Reset()
     {
-        Attempts = 0;
         CorrectPlates = 0;
         SelectedPlate = NULL;
         CurrentState = State::Incomplete;
@@ -65,7 +63,7 @@ namespace game
         Reset();
 
         // generate the pressure plates
-        int count = rand() % MAX_PLATES + 1;
+        int count = rand() % MAX_PLATES + 3;
         int row = 0;
         std::vector<int> plate_numbers;
 

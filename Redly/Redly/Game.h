@@ -32,7 +32,6 @@ namespace game
         SDL_Texture* NewPuzzleTexture;
         std::vector<PressurePlate*> PressurePlates;
         std::vector<int> Solution;
-        int Attempts;
         int CorrectPlates;
         PressurePlate* SelectedPlate;
         State CurrentState;

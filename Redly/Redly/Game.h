@@ -10,7 +10,7 @@ namespace game
     public:
         static const int MAX_PLATES = 10;
 
-        Game();
+        Game(int width, int height, SDL_Texture* opendoor, SDL_Texture* closeddoor);
         ~Game();
 
         void Reset();
@@ -20,9 +20,26 @@ namespace game
         bool OnMouseEvent(SDL_Event e);
 
     private:
+        enum State
+        {
+            Incomplete,
+            Complete
+        };
+
+        SDL_Texture* Opendoor;
+        SDL_Texture* Closeddoor;
         std::vector<PressurePlate*> PressurePlates;
         std::vector<int> Solution;
         int Attempts;
+        int CorrectPlates;
         PressurePlate* SelectedPlate;
+        State CurrentState;
+        SDL_Rect Door;
+        int Width;
+        int Height;
+        int CenterPosX;
+        int CenterPosY;
+
+        void ValidatePlate();
     };
 }

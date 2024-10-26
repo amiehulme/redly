@@ -11,6 +11,11 @@ namespace game
 
         PressurePlate(int plate_number, int x, int y);
 
+        inline int GetPlateNumber() { return PlateNumber; }
+
+        void Activate();
+        void SetInvalid();
+
         void Render(SDL_Renderer* renderer);
         bool OnMouseEvent(SDL_Event event);
 

@@ -9,6 +9,9 @@ int main(int argc, char* args[])
 {
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
+	SDL_Texture* closeddoor_texture = NULL;
+	SDL_Texture* opendoor_texture = NULL;
+
 	game::Game* game = NULL;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -26,7 +29,14 @@ int main(int argc, char* args[])
 		else
 		{
 			renderer = SDL_CreateRenderer(window, -1, 0);
-			game = new game::Game();
+			SDL_Surface* closed_image = SDL_LoadBMP("../resources/closeddoor.bmp");
+			SDL_Surface* open_image = SDL_LoadBMP("../resources/opendoor.bmp");
+			
+			closeddoor_texture = SDL_CreateTextureFromSurface(renderer,
+				closed_image);
+			opendoor_texture = SDL_CreateTextureFromSurface(renderer,
+				open_image);
+			game = new game::Game(SCREEN_WIDTH, SCREEN_HEIGHT, opendoor_texture, closeddoor_texture);
 
 			if (game != NULL)
 			{
@@ -47,18 +57,8 @@ int main(int argc, char* args[])
 					switch (event.type)
 					{
 					case SDL_MOUSEBUTTONDOWN:
-						switch (event.button.button)
-						{
-						case SDL_BUTTON_LEFT:
-							SDL_ShowSimpleMessageBox(0, "Mouse", "Left button was pressed!", window);
-							break;
-						case SDL_BUTTON_RIGHT:
-							SDL_ShowSimpleMessageBox(0, "Mouse", "Right button was pressed!", window);
-							break;
-						default:
-							SDL_ShowSimpleMessageBox(0, "Mouse", "Some other button was pressed!", window);
-							break;
-						}
+					case SDL_MOUSEBUTTONUP:
+						game->OnMouseEvent(event);
 						break;
 					case SDL_QUIT:
 						quit = true;
@@ -77,6 +77,8 @@ int main(int argc, char* args[])
 		delete game;
 	}
 
+	SDL_DestroyTexture(closeddoor_texture);
+	SDL_DestroyTexture(opendoor_texture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

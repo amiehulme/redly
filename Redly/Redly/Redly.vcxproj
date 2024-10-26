@@ -145,6 +145,10 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="PressurePlate.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\resources\closeddoor.bmp" />
+    <Image Include="..\resources\opendoor.bmp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

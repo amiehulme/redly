@@ -13,17 +13,40 @@ namespace game
         Rect.h = PLATE_HEIGHT;
     }
 
+    void PressurePlate::Activate()
+    {
+        CurrentState = Valid;
+    }
+
+    void PressurePlate::SetInvalid()
+    {
+        CurrentState = Invalid;
+    }
+
     bool PressurePlate::OnMouseEvent(SDL_Event event)
     {
+        // skip valid plates
+        if (CurrentState == Valid)
+        {
+            return false;
+        }
+
         // check if we're touching the plate
         switch (event.type)
         {
         case SDL_MOUSEBUTTONDOWN:
-        {
-            break;
-        }
         case SDL_MOUSEBUTTONUP:
         {
+            int mouseX = event.motion.x;
+            int mouseY = event.motion.y;
+
+            if (mouseX >= Rect.x && mouseX <= (Rect.x + PLATE_WIDTH))
+            {
+                if (mouseY >= Rect.y && mouseY <= (Rect.y + PLATE_HEIGHT))
+                {
+                    return true;
+                }
+            }
             break;
         }
         }
@@ -43,13 +66,13 @@ namespace game
         case State::Valid:
         {
             // Set render color to green
-            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
+            SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
             break;
         }
         case State::Invalid:
         {
             // Set render color to red
-            SDL_SetRenderDrawColor(renderer, 0, 255, 0, 0);
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
             break;
         }
         }

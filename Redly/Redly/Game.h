@@ -35,6 +35,7 @@ namespace game
         PressurePlate* SelectedPlate;
         State CurrentState;
         SDL_Rect Door;
+        SDL_Rect NewPuzzleButton;
         int Width;
         int Height;
         int CenterPosX;

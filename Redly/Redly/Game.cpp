@@ -15,10 +15,17 @@ namespace game
         CenterPosX = Width / 2;
         CenterPosY = Height / 2;
 
+        // setup door
         Door.w = 80;
         Door.h = 90;
         Door.x = CenterPosX - Door.w / 2;
         Door.y = Height - 100 - Door.h / 2;
+
+        // setup new puzzle button
+        NewPuzzleButton.w = 100;
+        NewPuzzleButton.h = 40;
+        NewPuzzleButton.x = CenterPosX - NewPuzzleButton.w / 2;
+        NewPuzzleButton.y = CenterPosY - NewPuzzleButton.h / 2;
     }
     
     Game::~Game()
@@ -126,6 +133,8 @@ namespace game
             SDL_RenderCopy(renderer, Opendoor, NULL, &Door);
 
             // New Puzzle Button
+            SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
+            SDL_RenderFillRect(renderer, &NewPuzzleButton);
 
             // 
             break;
@@ -138,19 +147,19 @@ namespace game
 
     bool Game::OnMouseEvent(SDL_Event event)
     {
-        switch (event.type)
+        switch (CurrentState)
         {
-        case SDL_MOUSEBUTTONDOWN:
+        case State::Incomplete:
         {
-            if (event.button.button != SDL_BUTTON_LEFT)
+            switch (event.type)
             {
-                break;
-            }
+            case SDL_MOUSEBUTTONDOWN:
+            {
+                if (event.button.button != SDL_BUTTON_LEFT)
+                {
+                    break;
+                }
 
-            switch (CurrentState)
-            {
-            case State::Incomplete:
-            {
                 for (int i = 0; i < PressurePlates.size(); ++i)
                 {
                     if (PressurePlates[i]->OnMouseEvent(event))
@@ -161,25 +170,13 @@ namespace game
                 }
                 break;
             }
-            case State::Complete:
+            case SDL_MOUSEBUTTONUP:
             {
-                break;
-            }
-            }
-            
-            break;
-        }
-        case SDL_MOUSEBUTTONUP:
-        {
-            if (event.button.button != SDL_BUTTON_LEFT)
-            {
-                break;
-            }
+                if (event.button.button != SDL_BUTTON_LEFT)
+                {
+                    break;
+                }
 
-            switch (CurrentState)
-            {
-            case State::Incomplete:
-            {
                 if (SelectedPlate == NULL)
                 {
                     break;
@@ -196,12 +193,30 @@ namespace game
                 SelectedPlate = NULL;
                 break;
             }
-            case State::Complete:
+            }
+            break;
+        }
+        case State::Complete:
+        {
+            switch (event.type)
             {
+            case SDL_MOUSEBUTTONDOWN:
+            case SDL_MOUSEBUTTONUP:
+            {
+                int mouseX = event.motion.x;
+                int mouseY = event.motion.y;
+
+                if (mouseX >= NewPuzzleButton.x && mouseX <= (NewPuzzleButton.x + NewPuzzleButton.w))
+                {
+                    if (mouseY >= NewPuzzleButton.y && mouseY <= (NewPuzzleButton.y + NewPuzzleButton.h))
+                    {
+                        GenerateNewPuzzle();
+                        return true;
+                    }
+                }
                 break;
             }
             }
-
             break;
         }
         }

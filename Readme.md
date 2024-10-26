@@ -43,6 +43,8 @@ Challenges Faced:
 
 I've never use SDL before, so I had to get it installed and learn how to set it up, render elements to the screen and handle mouse input. I also encountered some issues with rendering text, until I learned there's a separate library for that. Which is why I'm using the SDL2 TTF lib as well for this project.
 
+I used the SDL2 library, as that was the only version of SDL I could find that had a Visual Studio library I could use. Hopefully that's ok.
+
 
 Future Expansion Ideas:
 

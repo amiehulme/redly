@@ -2,9 +2,10 @@
 
 namespace game
 {
-    Game::Game(int width, int height, SDL_Texture* opendoor, SDL_Texture* closeddoor)
+    Game::Game(int width, int height, SDL_Texture* opendoor, SDL_Texture* closeddoor, SDL_Texture* newpuzzletexture)
         : Opendoor(opendoor)
         , Closeddoor(closeddoor)
+        , NewPuzzleTexture(newpuzzletexture)
         , Attempts(0)
         , CorrectPlates(0)
         , SelectedPlate(NULL)
@@ -22,10 +23,15 @@ namespace game
         Door.y = Height - 100 - Door.h / 2;
 
         // setup new puzzle button
-        NewPuzzleButton.w = 100;
-        NewPuzzleButton.h = 40;
+        NewPuzzleButton.w = 150;
+        NewPuzzleButton.h = 45;
         NewPuzzleButton.x = CenterPosX - NewPuzzleButton.w / 2;
         NewPuzzleButton.y = CenterPosY - NewPuzzleButton.h / 2;
+
+        NewPuzzleText.w = 100;
+        NewPuzzleText.h = 40;
+        NewPuzzleText.x = CenterPosX - NewPuzzleText.w / 2;
+        NewPuzzleText.y = CenterPosY - NewPuzzleText.h / 2;
     }
     
     Game::~Game()
@@ -69,7 +75,7 @@ namespace game
             {
                 row = 1;
             }
-            PressurePlates.push_back(new PressurePlate(i, 50 + i * (PressurePlate::PLATE_WIDTH + 20), 50 + row * (PressurePlate::PLATE_WIDTH + 20)));
+            PressurePlates.push_back(new PressurePlate(i, 50 + (i - row * 5) * (PressurePlate::PLATE_WIDTH + 20), 50 + row * (PressurePlate::PLATE_WIDTH + 20)));
             plate_numbers.push_back(i);
         }
 
@@ -135,8 +141,8 @@ namespace game
             // New Puzzle Button
             SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
             SDL_RenderFillRect(renderer, &NewPuzzleButton);
+            SDL_RenderCopy(renderer, NewPuzzleTexture, NULL, &NewPuzzleText);
 
-            // 
             break;
         }
         }
@@ -160,6 +166,7 @@ namespace game
                     break;
                 }
 
+                // check if a plate was pressed
                 for (int i = 0; i < PressurePlates.size(); ++i)
                 {
                     if (PressurePlates[i]->OnMouseEvent(event))

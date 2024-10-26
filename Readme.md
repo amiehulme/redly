@@ -17,12 +17,16 @@ Libraries Used:
 SDL2 2.30.8
 SDL2 TTF 2.22.0
 
+IDE Used:
+Visual Studio Community Edition 2022
+
 
 How to run the game:
 
 Open Release/game/Redly.exe
 
-I've included the libraries in the resources folder. If for some reason the game won't run, I had the libraries installed at a C:\vclib folder, with environment variables setup to point to those libs.
+I've included the libraries in the Redly/resources folder. If for some reason the game won't run, I had the libraries installed at a C:\vclib folder, with environment variables setup to point to those libs.
+I've included a screenshot of what it should look like when it loads up, with the door image etc.
 
 
 Design decisions:

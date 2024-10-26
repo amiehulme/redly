@@ -65,6 +65,7 @@ namespace game
         // generate the pressure plates
         int count = rand() % MAX_PLATES + 3;
         int row = 0;
+
         std::vector<int> plate_numbers;
 
         for (int i = 0; i < count; ++i)
@@ -73,7 +74,7 @@ namespace game
             {
                 row = 1;
             }
-            PressurePlates.push_back(new PressurePlate(i, 50 + (i - row * 5) * (PressurePlate::PLATE_WIDTH + 20), 50 + row * (PressurePlate::PLATE_WIDTH + 20)));
+            PressurePlates.push_back(new PressurePlate(i, 100 + (i - row * 5) * (PressurePlate::PLATE_WIDTH + 20), 50 + row * (PressurePlate::PLATE_WIDTH + 20)));
             plate_numbers.push_back(i);
         }
 
